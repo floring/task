@@ -11,9 +11,9 @@ data class Boundary(val points: Set<MyPoint>)
 data class MyImage(val points: Array<Array<MyPoint>>) {
 
     val width: Int
-        get() = points[0].size
-    val height: Int
         get() = points.size
+    val height: Int
+        get() = points[0].size
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

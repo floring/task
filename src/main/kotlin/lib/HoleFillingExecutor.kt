@@ -12,7 +12,7 @@ class HoleFillingExecutor(private val connectivity: IConnectivityType, private v
         }
 
         for (holePoint in hole.points) {
-            image.points[holePoint.y][holePoint.x].color = holePoint.color
+            image.points[holePoint.x][holePoint.y].color = holePoint.color
         }
 
         return image
@@ -22,9 +22,9 @@ class HoleFillingExecutor(private val connectivity: IConnectivityType, private v
         val points = hashSetOf<MyPoint>()
 
         // omit case where hole is on image edges
-        for (i in 1 until image.height - 1) {
-            for (j in 1 until image.width - 1) {
-                image.points[j][i].takeIf { it.isHole() }?.let { points.add(it) }
+        for (i in 1 until image.width - 1) {
+            for (j in 1 until image.height - 1) {
+                image.points[i][j].takeIf { it.isHole() }?.let { points.add(it) }
             }
         }
         return Hole(points)

@@ -42,9 +42,9 @@ fun main(args: Array<String>) {
 fun saveImage(image: MyImage) {
     val resultImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
 
-    for (y in 0 until image.height) {
-        for (x in 0 until image.width) {
-            val color = image.points[y][x].color.run {
+    for (x in 0 until image.width) {
+        for (y in 0 until image.height) {
+            val color = image.points[x][y].color.run {
                 println(this)
                 Color(this, this, this)
             }
