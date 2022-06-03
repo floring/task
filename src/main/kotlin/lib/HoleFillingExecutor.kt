@@ -1,8 +1,10 @@
 package lib
 
+import lib.weightFunction.IWeightFunction
+
 class HoleFillingExecutor(private val connectivity: IConnectivityType, private val weightFunction: IWeightFunction) {
 
-    fun fillHole(image: MyImage): MyImage {
+    fun fillHole(image: Image): Image {
         val hole = findHole(image)
 
         val boundaryPoints = findBoundary(image, hole)
@@ -18,8 +20,8 @@ class HoleFillingExecutor(private val connectivity: IConnectivityType, private v
         return image
     }
 
-    private fun findHole(image: MyImage): Hole {
-        val points = hashSetOf<MyPoint>()
+    private fun findHole(image: Image): Hole {
+        val points = hashSetOf<Point>()
 
         // omit case where hole is on image edges
         for (i in 1 until image.width - 1) {
@@ -30,8 +32,8 @@ class HoleFillingExecutor(private val connectivity: IConnectivityType, private v
         return Hole(points)
     }
 
-    private fun findBoundary(image: MyImage, hole: Hole): Boundary {
-        val points = hashSetOf<MyPoint>()
+    private fun findBoundary(image: Image, hole: Hole): Boundary {
+        val points = hashSetOf<Point>()
 
         for (holePoint in hole.points) {
             points.addAll(connectivity.getConnectionsFor(holePoint, image))
@@ -39,18 +41,16 @@ class HoleFillingExecutor(private val connectivity: IConnectivityType, private v
         return Boundary(points)
     }
 
-    private fun calculateColor(holePoint: MyPoint, boundary: Boundary): Float {
+    private fun calculateColor(holePoint: Point, boundary: Boundary): Float {
         var numerator = 0f
         var denominator = 0f
 
         for (boundaryPoint in boundary.points) {
             val weight = weightFunction.weight(holePoint, boundaryPoint)
-            numerator += (weight + boundaryPoint.color)
+            numerator += weight * boundaryPoint.color
             denominator += weight
         }
 
-        val bla = numerator / denominator
-
-        return bla
+        return numerator / denominator
     }
 }

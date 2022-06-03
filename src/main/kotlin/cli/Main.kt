@@ -1,5 +1,8 @@
 import cli.ImagePreprocessor
 import lib.*
+import lib.connectivity.Type4Connected
+import lib.connectivity.Type8Connected
+import lib.weightFunction.DefaultWeightFunction
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
@@ -39,19 +42,19 @@ fun main(args: Array<String>) {
     saveImage(resultImage)
 }
 
-fun saveImage(image: MyImage) {
+fun saveImage(image: Image) {
     val resultImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
 
     for (x in 0 until image.width) {
         for (y in 0 until image.height) {
             val color = image.points[x][y].color.run {
-                println(this)
                 Color(this, this, this)
             }
             resultImage.setRGB(x, y, color.rgb)
         }
     }
 
-    val fileOutput = File("/User/Arles/Downloads/sample.png")
+    val fileOutput = File("/Users/Arles/Downloads/sample.png")
     ImageIO.write(resultImage, "png", fileOutput)
+    println("Finished")
 }

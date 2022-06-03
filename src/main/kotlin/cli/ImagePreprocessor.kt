@@ -8,11 +8,11 @@ import javax.imageio.ImageIO
 
 class ImagePreprocessor {
 
-    fun process(imagePath: String, maskPath: String): MyImage {
+    fun process(imagePath: String, maskPath: String): Image {
         val image = ImageIO.read(File(imagePath))
         val mask = ImageIO.read(File(maskPath))
 
-        val points = Array(mask.width) { Array(mask.height) { MyPoint() } }
+        val points = Array(mask.width) { Array(mask.height) { Point() } }
 
         for (x in 0 until mask.width) {
             for (y in 0 until mask.width) {
@@ -20,10 +20,10 @@ class ImagePreprocessor {
                 val normalizedColor =
                     if (maskPixelColor.toGrayscale() > 0.5f) Color(image.getRGB(x, y)).toGrayscale() else -1f
 
-                points[x][y] = MyPoint(x, y, normalizedColor)
+                points[x][y] = Point(x, y, normalizedColor)
             }
         }
 
-        return MyImage(points)
+        return Image(points)
     }
 }
