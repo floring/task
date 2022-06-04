@@ -18,7 +18,9 @@ class ImagePreprocessor {
             for (y in 0 until mask.width) {
                 val maskPixelColor = Color(mask.getRGB(x, y))
                 val normalizedColor =
-                    if (maskPixelColor.toGrayscale() > 0.5f) Color(image.getRGB(x, y)).toGrayscale() else -1f
+                    if (maskPixelColor.toNormalizedGrayscale() > 0.5f)
+                        Color(image.getRGB(x, y)).toNormalizedGrayscale()
+                    else -1f
 
                 points[x][y] = Point(x, y, normalizedColor)
             }

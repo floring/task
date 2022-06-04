@@ -15,14 +15,14 @@ class CliArgs(parser: ArgParser) {
     ) { toFloat() }
 
     val output by parser.storing(
-        "-output",
+        "--output",
         help = "Specify output directory for the result image"
     )
 
     val connectivity by
-    parser.storing("-connectivity", help = "Specify pixel connectivity type number") { toInt() }
+    parser.storing("--connectivity", help = "Specify pixel connectivity type number") { toInt() }
         .addValidator {
-            if (value != 4 || value != 8)
+            if (value != 4 && value != 8)
                 throw InvalidArgumentException(
                     "Supported connectivity type: 4 or 8"
                 )

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO
 
 object ImageWriter {
     const val PNG_FORMAT = "png"
+    private const val PREFIX = "filled_"
 
     fun saveImage(image: Image, path: String, format: String = PNG_FORMAT) {
         val resultImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
@@ -25,5 +26,5 @@ object ImageWriter {
     }
 
     fun getOutputPath(dir: String, filename: String): String =
-        "$dir/filled_${filename.substringAfterLast('/')}"
+        "$dir/$PREFIX${filename.substringAfterLast('/')}"
 }
