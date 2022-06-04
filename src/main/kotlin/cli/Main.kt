@@ -1,6 +1,5 @@
-import cli.CliArgs
-import cli.ImagePreprocessor
-import cli.ImageWriter
+package cli
+
 import cli.ImageWriter.getOutputPath
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody

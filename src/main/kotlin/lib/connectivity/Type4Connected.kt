@@ -20,19 +20,6 @@ class Type4Connected : IConnectivityType {
                 }
             }
         }
-//
-//        if (x - 1 >= 0) {
-//            source.points[x - 1][y].takeUnless { it.isHole() }?.let { connections.add(it) }
-//        }
-//        if (x + 1 < source.width) {
-//            source.points[x + 1][y].takeUnless { it.isHole() }?.let { connections.add(it) }
-//        }
-//        if (y - 1 >= 0) {
-//            source.points[x][y - 1].takeUnless { it.isHole() }?.let { connections.add(it) }
-//        }
-//        if (y + 1 < source.height) {
-//            source.points[x][y + 1].takeUnless { it.isHole() }?.let { connections.add(it) }
-//        }
         return connections
     }
 }

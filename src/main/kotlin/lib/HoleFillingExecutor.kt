@@ -1,8 +1,12 @@
 package lib
 
+import lib.weightFunction.DefaultWeightFunction
 import lib.weightFunction.IWeightFunction
 
-class HoleFillingExecutor(private val connectivity: IConnectivityType, private val weightFunction: IWeightFunction) {
+class HoleFillingExecutor(
+    private val connectivity: IConnectivityType,
+    private val weightFunction: IWeightFunction = DefaultWeightFunction()
+) {
 
     fun fillHole(image: Image): Image {
         val hole = findHole(image)
