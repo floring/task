@@ -1,60 +1,37 @@
+import cli.CliArgs
 import cli.ImagePreprocessor
+import cli.ImageWriter
+import cli.ImageWriter.getOutputPath
+import com.xenomachina.argparser.ArgParser
+import com.xenomachina.argparser.mainBody
 import lib.*
 import lib.connectivity.Type4Connected
 import lib.connectivity.Type8Connected
 import lib.weightFunction.DefaultWeightFunction
-import java.awt.Color
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
 
-fun main(args: Array<String>) {
-    val paramZ = args[0].toFloat()
-    val paramE = args[1].toFloat()
+fun main(args: Array<String>) = mainBody {
 
-    val paramConnectivityType = args[2].toInt()
+    ArgParser(args).parseInto(::CliArgs).run {
+        val imagesCollection = images
+        val masksCollection = masks
 
-    // check on missing params
-    // check if CC not 4 or 8
-    // pass output path for result?
-    // extend to work with multiple images
+        val weightFunction = DefaultWeightFunction(zParam, eParam)
 
-    val paramImagePath = args[3]
-    val paramMaskPath = args[4]
+        val connectivity = when (connectivity) {
+            4 -> Type4Connected()
+            8 -> Type8Connected()
+            else -> throw IllegalStateException("Supported connectivity type: 4-connected or 8-connected.")
+        }
 
-    // preprocess
-    // fill hole, return image
-    // write result image
+        val executor = HoleFillingExecutor(connectivity, weightFunction)
+        val preprocessor = ImagePreprocessor()
 
-    val image = ImagePreprocessor().process(paramImagePath, paramMaskPath)
+        for (i in imagesCollection.indices) {
+            val image = preprocessor.process(imagesCollection[i], masksCollection[i])
+            val resultImage = executor.fillHole(image)
 
-    val weightFunction = DefaultWeightFunction(paramZ, paramE)
-    val connectivity = when (paramConnectivityType) {
-        4 -> Type4Connected()
-        8 -> Type8Connected()
-        else -> throw IllegalStateException("Supported connectivity type: 4-connected or 8-connected.")
-    }
-
-    val executor = HoleFillingExecutor(connectivity, weightFunction)
-
-    val resultImage = executor.fillHole(image)
-    saveImage(resultImage)
-}
-
-fun saveImage(image: Image) {
-    val resultImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-
-    for (x in 0 until image.width) {
-        for (y in 0 until image.height) {
-            val color = image.points[x][y].color.run {
-                Color(this, this, this)
-            }
-            resultImage.setRGB(x, y, color.rgb)
+            ImageWriter.saveImage(resultImage, getOutputPath(output, imagesCollection[i]))
         }
     }
-
-    val fileOutput = File("/Users/Arles/Downloads/sample.png")
-    ImageIO.write(resultImage, "png", fileOutput)
-    println("Finished")
 }
