@@ -4,6 +4,10 @@ import lib.IConnectivityType
 import lib.Image
 import lib.Point
 
+/**
+ * Represents 8-connected point connectivity type.
+ * @see https://en.wikipedia.org/wiki/Pixel_connectivity
+ */
 class Type8Connected : IConnectivityType {
     override fun getConnectionsFor(point: Point, source: Image): Set<Point> {
         val connections = hashSetOf<Point>()

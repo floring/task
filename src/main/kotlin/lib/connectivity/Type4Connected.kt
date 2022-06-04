@@ -5,6 +5,10 @@ import lib.Image
 import lib.Point
 import kotlin.math.abs
 
+/**
+ * Represents 4-connected point connectivity type.
+ * @see https://en.wikipedia.org/wiki/Pixel_connectivity
+ */
 class Type4Connected : IConnectivityType {
     override fun getConnectionsFor(point: Point, source: Image): Set<Point> {
         val connections = hashSetOf<Point>()

@@ -3,6 +3,9 @@ package cli
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.InvalidArgumentException
 
+/**
+ * Utility class for the command line arguments.
+ */
 class CliArgs(parser: ArgParser) {
     val zParam by parser.storing(
         "-z",

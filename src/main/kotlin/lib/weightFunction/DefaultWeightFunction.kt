@@ -4,6 +4,9 @@ import lib.Point
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+/**
+ * Represents default weight function for the hole filling algorithm.
+ */
 class DefaultWeightFunction(val z: Float = 2f, val epsilon: Float = 0.000001f) : IWeightFunction {
 
     override fun weight(from: Point, to: Point): Float {

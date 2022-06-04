@@ -10,6 +10,12 @@ object ImageWriter {
     const val PNG_FORMAT = "png"
     private const val PREFIX = "filled_"
 
+    /**
+     * Save filled image to defined location.
+     * @param image output image
+     * @param path output path
+     * @param format image format, PNG by default
+     */
     fun saveImage(image: Image, path: String, format: String = PNG_FORMAT) {
         val resultImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
 
@@ -25,6 +31,9 @@ object ImageWriter {
         ImageIO.write(resultImage, format, File(path))
     }
 
+    /**
+     * @return output full path for the filled image. Prefix "filled_" is appended to a filename.
+     */
     fun getOutputPath(dir: String, filename: String): String =
         "$dir/$PREFIX${filename.substringAfterLast('/')}"
 }

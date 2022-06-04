@@ -3,11 +3,23 @@ package lib
 import lib.weightFunction.DefaultWeightFunction
 import lib.weightFunction.IWeightFunction
 
+/**
+ * Represents a main class of a HoleFilling library.
+ * Support filling holes in grayscale images, where each pixel value is a float in
+ * the range [0, 1], and hole (missing) values which are marked with the value -1.
+ */
 class HoleFillingExecutor(
     private val connectivity: IConnectivityType,
     private val weightFunction: IWeightFunction = DefaultWeightFunction()
 ) {
 
+    /**
+     * Executes hole filling algorithm.
+     * @param image image with hole
+     * For representation of image input format:
+     * @see Image
+     * @return filled image
+     */
     fun fillHole(image: Image): Image {
         val hole = findHole(image)
 
@@ -24,6 +36,12 @@ class HoleFillingExecutor(
         return image
     }
 
+    /**
+     * Find single Hole in the image.
+     * Hole is represented as a set of Points.
+     * @see Hole
+     * @return hole object
+     */
     private fun findHole(image: Image): Hole {
         val points = hashSetOf<Point>()
 
@@ -36,6 +54,12 @@ class HoleFillingExecutor(
         return Hole(points)
     }
 
+    /**
+     * Find Boundary for a Hole.
+     * Boundary is represented as a set of Points.
+     * @see Boundary
+     * @return boundary object
+     */
     private fun findBoundary(image: Image, hole: Hole): Boundary {
         val points = hashSetOf<Point>()
 
@@ -45,6 +69,10 @@ class HoleFillingExecutor(
         return Boundary(points)
     }
 
+    /**
+     * Calculate color to fill for a hole point by its boundary.
+     * @return normalized color in range [0,1].
+     */
     private fun calculateColor(holePoint: Point, boundary: Boundary): Float {
         var numerator = 0f
         var denominator = 0f
